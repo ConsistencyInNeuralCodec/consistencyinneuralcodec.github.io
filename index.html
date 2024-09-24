@@ -91,13 +91,14 @@
             less pronounced. We found that
             existing audio tokenizers suffer low consistency.</p>
 
-          <table>
+          <!-- <table> -->
+          <table align="center">
             <caption>Table 1: Consistency accuracy of neural audio codecs. First, the audio is quantized to obtain the
               <b>First Layer of Audio Tokens</b> by the codec and then reconstructed from audio tokens to get the
               <b>Reconstructed Audio</b>. Next, a segment of the entire audio is sliced and discretized by the codec to
               obtain the <b>First Layer of Audio Tokens from Audio Segments</b>, after which it reconstructs the audio
               segments to get the <b>Reconstructed Audio Segments</b>. By comparing the consistency between the <b>First
-                Layer's Audio Tokens</b> and the <b>First Layer's Audio Tokens from Audio Segments</b>, we can observe
+                Layer of Audio Tokens</b> and the <b>First Layer of Audio Tokens from Audio Segments</b>, we can observe
               whether the discrete audio tokens encoded by the codec are influenced by contextual information, leading
               to inconsistency phenomenon.</caption>
             <tr>
@@ -248,7 +249,8 @@
 
           <h3 id="Part 2">1.2 Speech Reconstruction Results</h3>
 
-          <table>
+          <!-- <table> -->
+          <table align="center">
             <caption>Table 2: Speech reconstruction results of popular neural audio codecs, and <b>ours</b> denotes the
               neural audio codec training with
               consistent constraint.</caption>
@@ -412,7 +414,8 @@
 
           <h3 id="Part 3">1.3 Speech Generation Results</h3>
 
-          <table>
+          <!-- <table> -->
+          <table align="center">
             <caption>Table 3: Speech generation results of neural codec language models. <b>Ours</b> and <b>Ours w/o
                 consistency constraint</b> denote the
               same neural audio codecs with and without consistency constraint, respectively. The subscripts of the

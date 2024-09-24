@@ -21,7 +21,8 @@
   <style>
     table {
       width: 100%;
-      border-collapse: collapse;
+      /* border-collapse: collapse; */
+      border: 1px solid black; /* 表格的外边框 */
     }
 
     th,
@@ -29,7 +30,7 @@
       /* border: 1px solid black; 可选，用于更好地展示表格边框 */
       text-align: center;
       /* 使字体水平居中 */
-      padding: 10px;
+      /* padding: 10px; */
       /* 为单元格添加内边距 */
     }
   </style>
@@ -64,9 +65,16 @@
             language model over LibriTTS and large-scale MLS datases (44,000 hours) demonstrate the generality and
             effectiveness of our method. </p>
 
+          <style>
+            .image-description {
+              font-size: 16px;
+              /* 根据需要调整字体大小 */
+            }
+          </style>
+
           <div class="image-container">
             <img src="fig/all_tokenizer.png" alt="The Illustration of Representation Inconsistency (DRI) phenomenon">
-            <p class="image-description">Figure 1: The Illustration of Discrete Representation Inconsistency (DRI)
+            <p class="image-description">Figure: The Illustration of Discrete Representation Inconsistency (DRI)
               phenomenon. Subfigure (a) shows
               that text, whether it includes contextual information or not, can be encoded by the text tokenizer into
               the same text tokens. In contrast, Subfigure (b) illustrates that audio, with or without contextual
@@ -76,45 +84,49 @@
           </div>
 
           <h2 id="content">Content</h2>
-          <b><a href="#audio samples">1. Audio Samples</a></b><br>
-          <a href="#Part 1">1.1 DRI Phenomenon within Popular Neural Audio Codecs</a><br>
-          <a href="#Part 2">1.2 Speech Reconstruction Results</a><br>
-          <a href="#Part 3">1.3 Speech Generation Results</a><br>
+          <a href="#Part 1">1 DRI Phenomenon within Popular Neural Audio Codecs</a><br>
+          <a href="#Part 2">2 Speech Reconstruction Results</a><br>
+          <a href="#Part 3">3 Speech Generation Results</a><br>
 
 
-          <h2 id="audio samples">1. Audio Samples</h2>
-
-          <h3 id="Part 1">1.1 DRI Phenomenon within Popular Neural Audio Codecs</h3>
+          <h3 id="Part 1">1 DRI Phenomenon within Popular Neural Audio Codecs</h3>
           <p> We conduct quantitative analyses for popular neural audio codecs, and use <b>consistency accuracy</b>
             as a
-            metric to evaluate the DRI phenomenon. A higher consistency accuracy indicates that the DRI phenomenon is
-            less pronounced. We found that
-            existing audio tokenizers suffer low consistency.</p>
+            metric to evaluate the DRI phenomenon. First, the audio is quantized to obtain the
+            <b>Audio Tokens</b> by the codec, and then reconstructed from audio tokens to get the
+            <b>Reconstructed Audio</b>. Next, a segment of the entire audio is sliced and discretized to
+            obtain the <b>Audio Tokens from Audio Segments</b>, and reconstructed by
+            the codec to get the <b>Reconstructed Audio Segments</b>. By comparing the consistency accuracy between the
+            <b>
+              Audio Tokens</b> and the <b>Audio Tokens from Audio Segments</b>, we can observe
+            whether the discrete audio tokens encoded by the codec are influenced by contextual information, leading
+            to inconsistency phenomenon. A higher consistency accuracy indicates that the DRI phenomenon is
+            less pronounced. We found that existing audio tokenizers suffer low consistency.
+          </p>
+
+          <audio controls style="width: 950px;">
+            <source src="audio/consistency_acc/ground_truth/5683_32865_000045_000000.wav" type="audio/mpeg">
+          </audio>
+          <p><b>Transcript</b>: I believe, Charlie, he recommenced suddenly, there is not such an unnatural family on
+            record as ours; is there?</p>
 
           <!-- <table> -->
           <table align="center">
-            <caption>Table 1: Consistency accuracy of neural audio codecs. First, the audio is quantized to obtain the
-              <b>First Layer of Audio Tokens</b> by the codec and then reconstructed from audio tokens to get the
-              <b>Reconstructed Audio</b>. Next, a segment of the entire audio is sliced and discretized by the codec to
-              obtain the <b>First Layer of Audio Tokens from Audio Segments</b>, after which it reconstructs the audio
-              segments to get the <b>Reconstructed Audio Segments</b>. By comparing the consistency between the <b>First
-                Layer of Audio Tokens</b> and the <b>First Layer of Audio Tokens from Audio Segments</b>, we can observe
-              whether the discrete audio tokens encoded by the codec are influenced by contextual information, leading
-              to inconsistency phenomenon.</caption>
+            <!-- <caption>Table 1: Consistency accuracy of neural audio codecs.</caption> -->
             <tr>
               <th>Neural Audio Codec</th>
               <th>Reconstructed Audio</th>
-              <th>First Layer of Audio Tokens</th>
+              <th>Audio Tokens</th>
               <th>Reconstructed Audio Segments</th>
-              <th>First Layer of Audio Tokens from Audio Segments</th>
-              <th>First Layer's Consistency</th>
-              <th>First 3 Layers' Consistency</th>
+              <th>Audio Tokens from Audio Segments</th>
+              <th>First Layer's Consistency Accuracy</th>
+              <th>First 3 Layers' Consistency Accuracy</th>
               <!-- i believe , charlie , he recommenced suddenly , there is not such an unnatural family on record as ours ; is there ? -->
             </tr>
             <tr>
               <td>Ours</td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source src="audio/consistency_acc/Consistency/reconstruct/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
                 </audio>
@@ -122,16 +134,21 @@
               <td>
                 <pre>
 ..., 
-894, 894, 12, 894, 894, 256, 1009, 928, 895, 798, 
-498, 303, 731, 367, 388, 663, 396, 95, 155, 937, 
-577, 933, 595, 33, 715, 33, 33, 535, 535, 15, 
-587, 20, 20, 280, 21, 21, 327, 21, 17, 17, 
-150, 17, 150, 126, 126, 126, 126, 126, 126, 126, 
+894, 894, 12, 894, 894, 
+256, 1009, 928, 895, 798, 
+498, 303, 731, 367, 388, 
+663, 396, 95, 155, 937, 
+577, 933, 595, 33, 715, 
+33, 33, 535, 535, 15, 
+587, 20, 20, 280, 21, 
+21, 327, 21, 17, 17, 
+150, 17, 150, 126, 126, 
+126, 126, 126, 126, 126 
 ...
                     </pre>
               </td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source
                     src="audio/consistency_acc/Consistency/reconstruct_from_token_slice/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
@@ -139,11 +156,16 @@
               </td>
               <td>
                 <pre>
-894, 894, 12, 894, 894, 256, 1009, 928, 895, 798, 
-498, 303, 731, 367, 388, 663, 396, 95, 155, 937, 
-577, 933, 595, 33, 715, 33, 33, 535, 535, 15, 
-587, 20, 20, 280, 21, 21, 327, 21, 17, 17, 
-150, 17, 150, 126, 126, 126, 126, 126, 126, 126
+894, 894, 12, 894, 894, 
+256, 1009, 928, 895, 798, 
+498, 303, 731, 367, 388, 
+663, 396, 95, 155, 937, 
+577, 933, 595, 33, 715, 
+33, 33, 535, 535, 15, 
+587, 20, 20, 280, 21, 
+21, 327, 21, 17, 17, 
+150, 17, 150, 126, 126, 
+126, 126, 126, 126, 126
                     </pre>
               </td>
               <td>
@@ -156,7 +178,7 @@
             <tr>
               <td>Ours w/o consistency constraint</td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source src="audio/consistency_acc/FunCodec/reconstruct/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
                 </audio>
@@ -164,27 +186,37 @@
               <td>
                 <pre>
 ..., 
-40, 40, 40, 1020, 549, 432, 439, 923, 193, 642, 
-375, 570, 282, 745, 864, 317, 807, 184, 807, 723, 
-566, 861, 128, 934, 934, 717, 150, 507, 592, 738, 
-943, 786, 166, 786, 786, 166, 786, 786, 786, 117, 
-117, 117, 117, 117, 117, 117, 882, 882, 882, 882, 
+40, 40, 40, 1020, 549, 
+432, 439, 923, 193, 642, 
+375, 570, 282, 745, 864, 
+317, 807, 184, 807, 723, 
+566, 861, 128, 934, 934, 
+717, 150, 507, 592, 738, 
+943, 786, 166, 786, 786, 
+166, 786, 786, 786, 117, 
+117, 117, 117, 117, 117, 
+117, 882, 882, 882, 882, 
 ...
                   </pre>
               </td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source src="audio/consistency_acc/FunCodec/reconstruct_from_token_slice/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
                 </audio>
               </td>
               <td>
                 <pre>
-171, 171, 171, 549, 549, 233, 439, 923, 158, 433, 
-956, 570, 938, 367, 151, 317, 807, 156, 5, 777, 
-145, 956, 498, 934, 453, 453, 934, 934, 1023, 679, 
-784, 784, 784, 422, 422, 784, 784, 784, 422, 422, 
-846, 784, 407, 882, 637, 637, 515, 637, 637, 445
+<b>171</b>, <b>171</b>, <b>171</b>, <b>549</b>, 549, 
+<b>233</b>, 439, 923, <b>158</b>, <b>433</b>, 
+<b>956</b>, 570, <b>938</b>, <b>367</b>, <b>151</b>, 
+317, 807, <b>156</b>, <b>5</b>, <b>777</b>, 
+<b>145</b>, <b>956</b>, <b>498</b>, 934, <b>453</b>, 
+<b>453</b>, <b>934</b>, <b>934</b>, <b>1023</b>, <b>679</b>, 
+<b>784</b>, <b>784</b>, <b>784</b>, <b>422</b>, <b>422</b>, 
+<b>784</b>, <b>784</b>, <b>784</b>, <b>422</b>, <b>422</b>, 
+<b>846</b>, <b>784</b>, <b>407</b>, <b>882</b>, <b>637</b>, 
+<b>637</b>, <b>515</b>, <b>637</b>, <b>637</b>, <b>445</b>
                   </pre>
               </td>
               <td>
@@ -198,7 +230,7 @@
             <tr>
               <td>EnCodec</td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source src="audio/consistency_acc/EnCodec_8rvq/reconstruct/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
                 </audio>
@@ -206,19 +238,26 @@
               <td>
                 <pre>
 ..., 
-463, 373, 463, 463, 53, 373, 373, 731, 461, 537, 
-457, 392, 233, 679, 185, 112, 185, 432, 699, 136, 
-321, 967, 136, 321, 224, 136, 321, 224, 984, 1008, 
-679, 788, 465, 906, 151, 151, 151, 151, 151, 976, 
-491, 834, 430, 835, 408, 408, 408, 408, 408, 408, 
-408, 408, 62, 408, 408, 408, 408, 408, 835, 835, 
-835, 835, 835, 835, 475, 475, 475, 475, 475, 475, 
+463, 373, 463, 463, 53, 
+373, 373, 731, 461, 537, 
+457, 392, 233, 679, 185, 
+112, 185, 432, 699, 136, 
+321, 967, 136, 321, 224, 
+136, 321, 224, 984, 1008, 
+679, 788, 465, 906, 151, 
+151, 151, 151, 151, 976, 
+491, 834, 430, 835, 408, 
+408, 408, 408, 408, 408, 
+408, 408, 62, 408, 408, 
+408, 408, 408, 835, 835, 
+835, 835, 835, 835, 475, 
+475, 475, 475, 475, 475, 
 25, 475, 25, 779, 475,
 ...
                     </pre>
               </td>
               <td style="text-align: center">
-                <audio controls style="width: 150px;">
+                <audio controls style="width: 250px;">
                   <source
                     src="audio/consistency_acc/EnCodec_8rvq/reconstruct_from_token_slice/5683_32865_000045_000000.wav"
                     type="audio/mpeg">
@@ -226,14 +265,21 @@
               </td>
               <td>
                 <pre>
-463, 463, 463, 463, 53, 373, 373, 731, 731, 25, 
-457, 392, 233, 679, 185, 747, 185, 432, 699, 224, 
-321, 967, 136, 321, 224, 136, 321, 224, 984, 1008, 
-868, 533, 151, 906, 151, 151, 151, 151, 276, 976, 
-491, 834, 430, 835, 408, 62, 408, 408, 62, 408, 
-408, 408, 408, 408, 408, 408, 835, 835, 835, 835, 
-62, 835, 835, 835, 835, 475, 475, 25, 475, 475, 
-25, 475, 25, 25, 47
+463, <b>463</b>, 463, 463, 53, 
+373, 373, 731, <b>731</b>, <b>25</b>, 
+457, 392, 233, 679, 185, 
+<b>747</b>, 185, 432, 699, <b>224</b>, 
+321, 967, 136, 321, 224, 
+136, 321, 224, 984, 1008, 
+<b>868</b>, <b>533</b>, <b>151</b>, 906, 151, 
+151, 151, 151, <b>276</b>, 976, 
+491, 834, 430, 835, 408, 
+<b>62</b>, 408, 408, <b>62</b>, 408, 
+408, 408, <b>408</b>, 408, 408, 
+408, <b>835</b>, <b>835</b>, 835, 835, 
+<b>62</b>, 835, 835, 835, <b>835</b>, 
+475, 475, <b>25</b>, 475, 475, 
+25, 475, 25, <b>25</b>, <b>47</b>
                     </pre>
               </td>
               <td>
@@ -247,16 +293,25 @@
           </table>
 
 
-          <h3 id="Part 2">1.2 Speech Reconstruction Results</h3>
+          <h3 id="Part 2">2 Speech Reconstruction Results</h3>
+          <p>We demonstrate speech reconstruction results of popular neural audio codecs (e.g., EnCodec) and the codec training with consistency constraint (denoted as <b>Ours</b>).</p>
 
           <!-- <table> -->
           <table align="center">
-            <caption>Table 2: Speech reconstruction results of popular neural audio codecs, and <b>ours</b> denotes the
-              neural audio codec training with
-              consistent constraint.</caption>
+            <!-- <caption></caption> -->
             <thead>
-              <tr>
+              <!-- <tr>
                 <th>Neural Audio Codec</th>
+                <th>sample1</th>
+                <th>sample2</th>
+                <th>sample3</th>
+                <th>sample4</th>
+              </tr> -->
+              <tr>
+                <th rowspan="2">Neural Audio Codec</th>
+                <th colspan="4">Samples</th>
+              </tr>
+              <tr>
                 <th>sample1</th>
                 <th>sample2</th>
                 <th>sample3</th>
@@ -412,15 +467,14 @@
 
 
 
-          <h3 id="Part 3">1.3 Speech Generation Results</h3>
+          <h3 id="Part 3">3 Speech Generation Results</h3>
+
+          <p>We demonstrate speech generation results of neural codec language models. The neural codec language models are based on popular neural audio codecs (e.g., EnCodec) and the codec training with consistency consttraint (denoted as <b>Ours</b>). The subscripts of the
+          neural codec language models (e.g., 330M, 44Kh) denote the model size and training data scale.</p>
 
           <!-- <table> -->
           <table align="center">
-            <caption>Table 3: Speech generation results of neural codec language models. <b>Ours</b> and <b>Ours w/o
-                consistency constraint</b> denote the
-              same neural audio codecs with and without consistency constraint, respectively. The subscripts of the
-              neural
-              codec language models (e.g., 330M, 44Kh) denote the model size and training data scale.</caption>
+            <!-- <caption></caption> -->
             <tr>
               <th rowspan="2">Neural Audio Codec</th>
               <th rowspan="2">Neural Codec Language Model</th>

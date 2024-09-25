@@ -193,26 +193,24 @@
     <br>
     <!-- <h2 id="abstract">Abstract</h2> -->
     <p class="centered-paragraph">
-      <b>Abstract. </b>Building upon advancements in LLMs, the field of audio processing has seen increased interest in
-      training
-      audio generation tasks with discrete audio token sequences. However, directly discretizing audio by
-      neural audio codecs often results in sequences that fundamentally differ from text sequences. Unlike text,
-      where token sequences are deterministic, discrete audio tokens can exhibit significant variability based on
-      contextual factors, while still producing perceptually identical audio segments. We refer to this phenomenon
-      as <b>Discrete Representation Inconsistency (DRI)</b>. This inconsistency can lead to a single audio
-      segment being represented by multiple divergent sequences, which creates confusion in neural codec language
-      models and results in omissions and repetitions during speech generation. In this paper, we quantitatively
-      analyze DRI phenomenon within popular audio tokenizers such as EnCodec. Our approach effectively mitigates
-      the DRI phenomenon of the neural audio codec. Furthermore, extensive experiments on the neural codec
-      language model over LibriTTS and large-scale MLS datases (44,000 hours) demonstrate the generality and
-      effectiveness of our method.
+      <b>Abstract. </b>Building upon advancements in Large Language Models (LLMs), the field of audio processing has
+      seen increased interest in training audio generation tasks with discrete audio token sequences. However, directly
+      discretizing audio by
+      neural audio codecs often results in sequences that fundamentally differ from text sequences. Unlike text, where
+      text token sequences are deterministic, discrete audio tokens can exhibit significant variability based on
+      contextual factors, while still producing perceptually identical audio segments. We refer to this phenomenon as
+      <b>Discrete Representation Inconsistency (DRI)</b>. This inconsistency can lead to a single audio segment being
+      represented by multiple divergent sequences, which creates confusion in neural codec language models and results
+      in omissions and repetitions during speech generation. In this paper, we quantitatively analyze the DRI phenomenon
+      within popular audio tokenizers such as EnCodec. Our approach effectively mitigates the DRI phenomenon of the
+      neural audio codec. Furthermore, extensive experiments on the neural codec language model over LibriTTS and
+      large-scale MLS datases (44,000 hours) demonstrate the effectiveness and generality of our method.
     </p>
 
     <br>
     <h2 id="content" class="centered-paragraph">Content</h2>
     <a href="#Part 1" class="centered-paragraph" style="display: block;">1 Overview</a>
-    <a href="#Part 2" class="centered-paragraph" style="display: block;">2 DRI Phenomenon within Popular Neural Audio
-      Codecs</a>
+    <a href="#Part 2" class="centered-paragraph" style="display: block;">2 Analysis on DRI Phenomenon within Neural Audio Codecs</a>
     <a href="#Part 3" class="centered-paragraph" style="display: block;">3 Speech Reconstruction Results</a>
     <a href="#Part 4" class="centered-paragraph" style="display: block;">4 Speech Generation Results</a>
 
@@ -250,28 +248,47 @@
 
 <body>
   <div class="container">
-    <h3 id="Part 2">2 DRI Phenomenon within Popular Neural Audio Codecs</h3>
+    <h3 id="Part 2">2 Analysis on DRI Phenomenon within Neural Audio Codecs</h3>
     <p class="centered-paragraph">
-      We conduct quantitative analyses for popular neural audio codecs, and use <b>consistency accuracy</b>
-      as a metric to evaluate the DRI phenomenon. First, the audio is quantized to obtain the
-      <b>Audio Tokens</b> by the codec, and then reconstructed from audio tokens to get the
-      <b>Reconstructed Audio</b>. Next, a segment of the entire audio is sliced and discretized to
-      obtain the <b>Audio Tokens from Audio Segments</b>, and reconstructed by
-      the codec to get the <b>Reconstructed Audio Segments</b>. By comparing the consistency accuracy between the
-      <b>
-        Audio Tokens</b> and the <b>Audio Tokens from Audio Segments</b>, we can observe
-      whether the discrete audio tokens encoded by the codec are influenced by contextual information, leading
-      to inconsistency phenomenon. A higher consistency accuracy indicates that the DRI phenomenon is
-      less pronounced. We found that existing audio tokenizers suffer low consistency.
+      To analyze the DRI phenomenon, we use popular neural audio codecs as audio tokenizers to quantize both the
+      entire audio and an audio segment within that audio, and then compare the results of their corresponding discrete audio
+      tokens. Audio segments reconstructed from these audio tokens sound the same. However, these audio tokens may be
+      inconsistent after quantification, which poses a many-to-one mapping problem between audio segments and audio
+      tokens, and raises the uncertainty for neural codec language models in predicting the next token. We use
+      <b>consistency accuracy</b> as a metric to evaluate the DRI phenomenon, and find that
+      existing audio tokenizers suffer low consistency.
     </p>
     <br>
 
-    <audio controls style="width: 600px;">
+    <!-- <audio controls style="width: 600px;">
       <source src="audio/consistency_acc/ground_truth/5683_32865_000045_000000.wav" type="audio/mpeg">
     </audio>
     <p class="centered-paragraph"><b>Transcript</b>: I believe, Charlie, he recommenced suddenly, there is not such an
       unnatural family on
-      record as ours; is there?</p>
+      record as ours; is there?</p> -->
+
+    <div align="center" class="table-container">
+      <table align="center">
+        <thead>
+          <tr>
+            <th>Ground Truth</th>
+            <th>Transcript</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>
+            <audio controls style="width: 600px;">
+              <source src="audio/consistency_acc/ground_truth/5683_32865_000045_000000.wav" type="audio/mpeg">
+            </audio>
+          </td>
+          <td>
+            I believe, Charlie, he recommenced suddenly, there is not such an
+            unnatural family on record as ours; is there?
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br>
 
     <!-- <table> -->
     <div align="center" class="table-container">
@@ -319,6 +336,7 @@
           </td>
           <td>
             <pre>
+...,
 894, 894, 12, 894, 894, 
 256, 1009, 928, 895, 798, 
 498, 303, 731, 367, 388, 
@@ -328,7 +346,8 @@
 587, 20, 20, 280, 21, 
 21, 327, 21, 17, 17, 
 150, 17, 150, 126, 126, 
-126, 126, 126, 126, 126
+126, 126, 126, 126, 126,
+...
                 </pre>
           </td>
           <td>
@@ -369,6 +388,7 @@
           </td>
           <td>
             <pre>
+...,
 <b>171</b>, <b>171</b>, <b>171</b>, <b>549</b>, 549, 
 <b>233</b>, 439, 923, <b>158</b>, <b>433</b>, 
 <b>956</b>, 570, <b>938</b>, <b>367</b>, <b>151</b>, 
@@ -378,7 +398,8 @@
 <b>784</b>, <b>784</b>, <b>784</b>, <b>422</b>, <b>422</b>, 
 <b>784</b>, <b>784</b>, <b>784</b>, <b>422</b>, <b>422</b>, 
 <b>846</b>, <b>784</b>, <b>407</b>, <b>882</b>, <b>637</b>, 
-<b>637</b>, <b>515</b>, <b>637</b>, <b>637</b>, <b>445</b>
+<b>637</b>, <b>515</b>, <b>637</b>, <b>637</b>, <b>445</b>,
+...
               </pre>
           </td>
           <td>
@@ -426,6 +447,7 @@
           </td>
           <td>
             <pre>
+...,
 463, <b>463</b>, 463, 463, 53, 
 373, 373, 731, <b>731</b>, <b>25</b>, 
 457, 392, 233, 679, 185, 
@@ -440,7 +462,8 @@
 408, <b>835</b>, <b>835</b>, 835, 835, 
 <b>62</b>, 835, 835, 835, <b>835</b>, 
 475, 475, <b>25</b>, 475, 475, 
-25, 475, 25, <b>25</b>, <b>47</b>
+25, 475, 25, <b>25</b>, <b>47</b>,
+...
                 </pre>
           </td>
           <td>
@@ -844,23 +867,19 @@
           <td class="empty-cell"></td>
           <td>VoiceCraft<sub>880M</sub></td>
           <td style="text-align: center"><audio controls="controls">
-              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/5683_32879_000016_000000.wav"
-                autoplay />
+              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/5683_32879_000016_000000.wav" autoplay />
             </audio>
           </td>
           <td style="text-align: center"><audio controls="controls">
-              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/237_134500_000003_000004.wav"
-                autoplay />
+              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/237_134500_000003_000004.wav" autoplay />
             </audio>
           </td>
           <td style="text-align: center"><audio controls="controls">
-              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/4970_29095_000018_000002.wav"
-                autoplay />
+              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/4970_29095_000018_000002.wav" autoplay />
             </audio>
           </td>
           <td style="text-align: center"><audio controls="controls">
-              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/3570_5694_000007_000005.wav"
-                autoplay />
+              <source src="audio/speech_generation/VoiceCraft_830M_TTSEnhanced/3570_5694_000007_000005.wav" autoplay />
             </audio>
           </td>
         </tr>

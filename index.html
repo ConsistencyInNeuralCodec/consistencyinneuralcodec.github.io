@@ -29,19 +29,27 @@
       font-size: 32px;
       font-weight: bold;
     }
+
     h2 {
       text-align: center;
       font-size: 20px;
       font-weight: bold;
     }
+
     ul {
-        list-style-type: none; /* 去掉默认的符号 */
-        padding: 0; /* 去掉内边距 */
+      list-style-type: none;
+      /* 去掉默认的符号 */
+      padding: 0;
+      /* 去掉内边距 */
     }
+
     li {
-        font-size: 18px; /* 设置字体大小 */
-        font-weight: bold; /* 加粗字体 */
-        margin: -10px 0; /* 上下间距 */
+      font-size: 18px;
+      /* 设置字体大小 */
+      font-weight: bold;
+      /* 加粗字体 */
+      margin: -10px 0;
+      /* 上下间距 */
     }
 
     p {
@@ -288,13 +296,11 @@
   <div class="container">
     <h3 id="Part 2">2 Analysis on DRI Phenomenon within Neural Audio Codecs</h3>
     <p class="centered-paragraph">
-      To analyze the DRI phenomenon, we use popular neural audio codecs as audio tokenizers to quantize both the
-      entire audio and an audio segment within that audio, and then compare the results of their corresponding discrete audio
-      tokens. Audio segments reconstructed from these audio tokens sound the same. However, these audio tokens may be
-      inconsistent after quantification, which poses a many-to-one mapping problem between audio segments and audio
-      tokens, and raises the uncertainty for neural codec language models in predicting the next token. We use
-      <b>consistency accuracy</b> as a metric to evaluate the DRI phenomenon, and find that
-      existing audio tokenizers suffer low consistency.
+      To analyze the DRI phenomenon, we use neural audio codecs as audio tokenizers to quantize both the entire audio
+      and an audio segment within that audio, and then compare the results of their corresponding discrete audio token
+      sequences. As you can hear, these two audio segments are exactly identical with the only difference being whether
+      there is context, but the discrete audio token sequences are very different, which raises uncertainty for neural
+      codec language models in predicting the next token.
     </p>
     <br>
 

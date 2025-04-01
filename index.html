@@ -696,7 +696,7 @@
     <h3 id="Part 4">4 Speech Generation Results</h3>
 
     <p class="centered-paragraph">
-      We demonstrate speech generation results of neural codec language models. The neural codec language models are
+      We demonstrate zero-shot text-to-speech (TTS) results of neural codec language models, a representative application of speech generation. The neural codec language models are
       based on popular neural audio codecs (e.g., EnCodec) and the codec training with consistency consttraint
       (denoted as <b>Ours</b>). The subscripts of the
       neural codec language models (e.g., 330M, 44Kh) denote the model size and training data scale.
@@ -720,7 +720,7 @@
         </thead>
         <tr>
           <td rowspan="2" class="sticky-column">Ground Truth</td>
-          <td>Prompt</td>
+          <td>Text</td>
           <td>And the lectures, and the dissecting rooms, has thee thought of the dissecting rooms?</td>
           <td>Infirmities induced by over indulgence are among some peoples freely recognised as manly attributes.
           <td>He was particularly attentive to the behavior of their preachers, on whom all depended.</td>
@@ -729,7 +729,7 @@
         </tr>
         <tr>
           <td class="empty-cell"></td>
-          <td>Audio</td>
+          <td>Target Audio</td>
           <td style="text-align: center"><audio controls="controls">
             <source src="audio/speech_generation/ground_truth/4970_29095_000018_000002.wav" autoplay />
           </audio>
@@ -749,7 +749,7 @@
         </tr>
         <tr>
           <td rowspan="2" class="sticky-column">Reference</td>
-          <td>Text</td>
+          <td>Reference Text</td>
           <td>He would say good night, but not good bye .</td>
           <td>but that does not remain the sole purpose of their consumption .</td>
           <td>The parliament and the scots laid their proposals before the king.</td>
@@ -757,7 +757,7 @@
         </tr>
         <tr>
           <td class="empty-cell"></td>
-          <td>Audio</td>
+          <td>Reference Speech</td>
           <td style="text-align: center"><audio controls="controls">
             <source src="audio/speech_generation/reference/4970_29095_000018_000002.wav" autoplay />
           </audio>
